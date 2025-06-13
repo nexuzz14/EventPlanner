@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - Woncrew Organizer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+</head>
+<body class="bg-gray-100 font-sans">
+    <div class="min-h-screen flex flex-col md:flex-row" x-data="{ isSidebarOpen: false }">
+        <!-- Sidebar -->
+        <div class="bg-blue-900 text-white w-64 flex-0 p-6 fixed  h-screen transform -translate-x-full md:translate-x-0 transition-transform duration-200 ease-in-out z-50"
+             :class="{ 'translate-x-0': isSidebarOpen }">
+            <div class="flex items-center gap-3 mb-6 justify-start">
+              <button @click="isSidebarOpen = !isSidebarOpen" class="md:hidden  p-2 bg-white text-black rounded">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                </svg>
+            </button>
+            <h2 class="text-2xl font-bold flex">Admin Panel</h2>
+            
+            </div>
+            <ul class="space-y-2">
+                <li><a href="#beranda" class="block py-2 px-4 hover:bg-blue-800 rounded">Beranda</a></li>
+                <li><a href="#tentang-kami" class="block py-2 px-4 hover:bg-blue-800 rounded">Tentang Kami</a></li>
+                <li><a href="#paket" class="block py-2 px-4 hover:bg-blue-800 rounded">Paket & Harga</a></li>
+                <li><a href="#galeri" class="block py-2 px-4 hover:bg-blue-800 rounded">Galeri</a></li>
+                <li><a href="#testimoni" class="block py-2 px-4 hover:bg-blue-800 rounded">Testimoni</a></li>
+                <li><a href="#kontak" class="block py-2 px-4 hover:bg-blue-800 rounded">Kontak</a></li>
+            </ul>
+        </div>
+
+        <!-- Main Content -->
+        <div class="flex-1 p-8 md:ml-64">
+            <!-- Tombol Toggle untuk Mobile -->
+            <button @click="isSidebarOpen = !isSidebarOpen" class="md:hidden mb-4 p-2 bg-blue-900 text-white rounded">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+                </svg>
+            </button>
+
+            <!-- Beranda Section -->
+            <section id="beranda" class="mb-8">
+                <h2 class="text-2xl font-bold mb-4">Edit Beranda</h2>
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700">Judul Beranda</label>
+                        <input type="text" x-model="beranda.judul" class="mt-1 block w-full p-2 border border-gray-300 rounded-lg active:outline-none focus:outline-none active:ring-0 focus:ring-0">
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700">Deskripsi Beranda</label>
+                        <textarea x-model="beranda.deskripsi" class="mt-1 block w-full p-2 border border-gray-300 rounded-lg active:outline-none focus:outline-none active:ring-0 focus:ring-0"></textarea>
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700">Gambar Beranda</label>
+                        <input type="file" @change="beranda.gambar = $event.target.files[0]" accept="image/*" class="mt-1 block w-full p-2 border border-gray-300 rounded-lg">
+                        <img :src="beranda.gambarPreview" alt="Preview Gambar Beranda" class="mt-2 w-32 h-32 object-cover rounded-lg" x-show="beranda.gambarPreview">
+                    </div>
+                </div>
+            </section>
+
+            <!-- Tentang Kami Section -->
+            <section id="tentang-kami" class="mb-8">
+                <h2 class="text-2xl font-bold mb-4">Edit Tentang Kami</h2>
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700">Judul Tentang Kami</label>
+                        <input type="text" x-model="tentangKami.judul" class="mt-1 block w-full p-2 border border-gray-300 rounded-lg active:outline-none focus:outline-none active:ring-0 focus:ring-0">
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700">Deskripsi Tentang Kami</label>
+                        <textarea x-model="tentangKami.deskripsi" class="mt-1 block w-full p-2 border border-gray-300 rounded-lg active:outline-none focus:outline-none active:ring-0 focus:ring-0"></textarea>
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700">Gambar Tentang Kami</label>
+                        <input type="file" @change="tentangKami.gambar = $event.target.files[0]" accept="image/*" class="mt-1 block w-full p-2 border border-gray-300 rounded-lg">
+                        <img :src="tentangKami.gambarPreview" alt="Preview Gambar Tentang Kami" class="mt-2 w-32 h-32 object-cover rounded-lg" x-show="tentangKami.gambarPreview">
+                    </div>
+                </div>
+            </section>
+
+            <!-- Paket & Harga Section -->
+            <section id="paket" class="mb-8">
+                <h2 class="text-2xl font-bold mb-4">Edit Paket & Harga</h2>
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700">Judul Paket</label>
+                        <input type="text" x-model="paket.judul" class="mt-1 block w-full p-2 border border-gray-300 rounded-lg active:outline-none focus:outline-none active:ring-0 focus:ring-0">
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700">Deskripsi Paket</label>
+                        <textarea x-model="paket.deskripsi" class="mt-1 block w-full p-2 border border-gray-300 rounded-lg active:outline-none focus:outline-none active:ring-0 focus:ring-0"></textarea>
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700">Gambar Paket</label>
+                        <input type="file" @change="paket.gambar = $event.target.files[0]" accept="image/*" class="mt-1 block w-full p-2 border border-gray-300 rounded-lg">
+                        <img :src="paket.gambarPreview" alt="Preview Gambar Paket" class="mt-2 w-32 h-32 object-cover rounded-lg" x-show="paket.gambarPreview">
+                    </div>
+                </div>
+            </section>
+
+            <!-- Galeri Section -->
+            <section id="galeri" class="mb-8">
+                <h2 class="text-2xl font-bold mb-4">Edit Galeri</h2>
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700">Judul Galeri</label>
+                        <input type="text" x-model="galeri.judul" class="mt-1 block w-full p-2 border border-gray-300 rounded-lg active:outline-none focus:outline-none active:ring-0 focus:ring-0">
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700">Deskripsi Galeri</label>
+                        <textarea x-model="galeri.deskripsi" class="mt-1 block w-full p-2 border border-gray-300 rounded-lg active:outline-none focus:outline-none active:ring-0 focus:ring-0"></textarea>
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700">Gambar Galeri</label>
+                        <input type="file" @change="galeri.gambar = $event.target.files[0]" accept="image/*" class="mt-1 block w-full p-2 border border-gray-300 rounded-lg">
+                        <img :src="galeri.gambarPreview" alt="Preview Gambar Galeri" class="mt-2 w-32 h-32 object-cover rounded-lg" x-show="galeri.gambarPreview">
+                    </div>
+                </div>
+            </section>
+
+            <!-- Testimoni Section -->
+            <section id="testimoni" class="mb-8">
+                <h2 class="text-2xl font-bold mb-4">Edit Testimoni</h2>
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700">Judul Testimoni</label>
+                        <input type="text" x-model="testimoni.judul" class="mt-1 block w-full p-2 border border-gray-300 rounded-lg active:outline-none focus:outline-none active:ring-0 focus:ring-0">
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700">Deskripsi Testimoni</label>
+                        <textarea x-model="testimoni.deskripsi" class="mt-1 block w-full p-2 border border-gray-300 rounded-lg active:outline-none focus:outline-none active:ring-0 focus:ring-0"></textarea>
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700">Gambar Testimoni</label>
+                        <input type="file" @change="testimoni.gambar = $event.target.files[0]" accept="image/*" class="mt-1 block w-full p-2 border border-gray-300 rounded-lg">
+                        <img :src="testimoni.gambarPreview" alt="Preview Gambar Testimoni" class="mt-2 w-32 h-32 object-cover rounded-lg" x-show="testimoni.gambarPreview">
+                    </div>
+                </div>
+            </section>
+
+            <!-- Kontak Section -->
+            <section id="kontak" class="mb-8">
+                <h2 class="text-2xl font-bold mb-4">Edit Kontak</h2>
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700">Judul Kontak</label>
+                        <input type="text" x-model="kontak.judul" class="mt-1 block w-full p-2 border border-gray-300 rounded-lg active:outline-none focus:outline-none active:ring-0 focus:ring-0">
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700">Deskripsi Kontak</label>
+                        <textarea x-model="kontak.deskripsi" class="mt-1 block w-full p-2 border border-gray-300 rounded-lg active:outline-none focus:outline-none active:ring-0 focus:ring-0"></textarea>
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700">Gambar Kontak</label>
+                        <input type="file" @change="kontak.gambar = $event.target.files[0]" accept="image/*" class="mt-1 block w-full p-2 border border-gray-300 rounded-lg">
+                        <img :src="kontak.gambarPreview" alt="Preview Gambar Kontak" class="mt-2 w-32 h-32 object-cover rounded-lg" x-show="kontak.gambarPreview">
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('alpine:init', () => {
+            Alpine.data('adminPanel', () => ({
+                beranda: {
+                    judul: 'Wujudkan Acara Impian Anda Bersama Kami',
+                    deskripsi: 'Kami menyediakan layanan perencanaan acara terbaik untuk pernikahan, ulang tahun, corporate event, dan acara spesial lainnya.',
+                    gambar: null,
+                    gambarPreview: null
+                },
+                tentangKami: {
+                    judul: 'Tentang Kami',
+                    deskripsi: 'Kami adalah tim profesional yang berdedikasi untuk mewujudkan acara impian Anda menjadi kenyataan.',
+                    gambar: null,
+                    gambarPreview: null
+                },
+                paket: {
+                    judul: 'Paket & Harga',
+                    deskripsi: 'Kami menawarkan berbagai paket yang dapat disesuaikan dengan kebutuhan dan anggaran Anda.',
+                    gambar: null,
+                    gambarPreview: null
+                },
+                galeri: {
+                    judul: 'Galeri Acara',
+                    deskripsi: 'Beberapa acara yang telah kami selenggarakan dengan sukses.',
+                    gambar: null,
+                    gambarPreview: null
+                },
+                testimoni: {
+                    judul: 'Testimoni Klien',
+                    deskripsi: 'Apa kata klien kami tentang layanan yang kami berikan.',
+                    gambar: null,
+                    gambarPreview: null
+                },
+                kontak: {
+                    judul: 'Kontak & Reservasi',
+                    deskripsi: 'Hubungi kami untuk konsultasi gratis atau booking jadwal acara Anda.',
+                    gambar: null,
+                    gambarPreview: null
+                },
+
+                init() {
+                    // Initialize image previews
+                    this.$watch('beranda.gambar', (value) => {
+                        if (value) {
+                            const reader = new FileReader();
+                            reader.onload = (e) => {
+                                this.beranda.gambarPreview = e.target.result;
+                            };
+                            reader.readAsDataURL(value);
+                        }
+                    });
+
+                    this.$watch('tentangKami.gambar', (value) => {
+                        if (value) {
+                            const reader = new FileReader();
+                            reader.onload = (e) => {
+                                this.tentangKami.gambarPreview = e.target.result;
+                            };
+                            reader.readAsDataURL(value);
+                        }
+                    });
+
+                    this.$watch('paket.gambar', (value) => {
+                        if (value) {
+                            const reader = new FileReader();
+                            reader.onload = (e) => {
+                                this.paket.gambarPreview = e.target.result;
+                            };
+                            reader.readAsDataURL(value);
+                        }
+                    });
+
+                    this.$watch('galeri.gambar', (value) => {
+                        if (value) {
+                            const reader = new FileReader();
+                            reader.onload = (e) => {
+                                this.galeri.gambarPreview = e.target.result;
+                            };
+                            reader.readAsDataURL(value);
+                        }
+                    });
+
+                    this.$watch('testimoni.gambar', (value) => {
+                        if (value) {
+                            const reader = new FileReader();
+                            reader.onload = (e) => {
+                                this.testimoni.gambarPreview = e.target.result;
+                            };
+                            reader.readAsDataURL(value);
+                        }
+                    });
+
+                    this.$watch('kontak.gambar', (value) => {
+                        if (value) {
+                            const reader = new FileReader();
+                            reader.onload = (e) => {
+                                this.kontak.gambarPreview = e.target.result;
+                            };
+                            reader.readAsDataURL(value);
+                        }
+                    });
+                }
+            }));
+        });
+    </script>
+</body>
+</html>

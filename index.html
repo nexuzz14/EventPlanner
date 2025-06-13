@@ -1,0 +1,1227 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Woncrew Organizer - Event Planner & Wedding Organizer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.0/flowbite.min.css" rel="stylesheet" />
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/alpinejs/3.13.3/cdn.min.js"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+</head>
+
+<body class="bg-gray-50 font-sans">
+    <!-- Navbar -->
+    <!-- Navbar dengan Alpine.js -->
+    <nav class="bg-white border-gray-200 shadow-md fixed w-full z-50" x-data="{ 
+    isOpen: false,
+    activeSection: null,
+    sections: ['beranda', 'tentang-kami', 'paket', 'galeri', 'testimoni', 'kontak'],
+    init() {
+        // Handle scroll untuk update active section
+        window.addEventListener('scroll', () => {
+            let closest = null;
+            let closestDistance = Infinity;
+            
+            this.sections.forEach(sectionId => {
+                const section = document.getElementById(sectionId);
+                if(section) {
+                    const rect = section.getBoundingClientRect();
+                    const distance = Math.abs(rect.top);
+                    
+                    if(distance < closestDistance) {
+                        closestDistance = distance;
+                        closest = sectionId;
+                    }
+                }
+            });
+            
+            this.activeSection = closest;
+        });
+        
+        // Trigger initial check
+        this.$nextTick(() => window.dispatchEvent(new Event('scroll')));
+    }
+}" @keydown.escape="isOpen = false">
+        <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+            <a href="#" class="flex items-center space-x-3">
+                <img src="images/logo.jpeg" class="h-10" alt="Woncrew Logo" />
+                <div class="flex flex-col">
+                    <span class="self-center text-xl font-semibold whitespace-nowrap text-blue-800">WONCREW</span>
+                    <span class="text-xs text-gray-600">EVENT PLANNER & WEDDING ORGANIZER</span>
+                </div>
+            </a>
+
+            <!-- Mobile Menu Button -->
+            <button @click="isOpen = !isOpen" type="button"
+                class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200">
+                <span class="sr-only">Buka menu utama</span>
+                <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                    viewBox="0 0 17 14">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M1 1h15M1 7h15M1 13h15" />
+                </svg>
+            </button>
+
+            <!-- Navigation Menu -->
+            <div x-data="{ isMobile: window.innerWidth < 768 }"
+            x-init="window.addEventListener('resize', () => { isMobile = window.innerWidth < 768; })"
+            class="w-full md:block md:w-auto"
+            x-show="isMobile ? isOpen : true"
+            @click.away="isOpen = false"
+            x-collapse>
+                <ul
+                    class="font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 md:mt-0 md:border-0 md:bg-white">
+                    <template x-for="section in sections" :key="section">
+                        <li>
+                            <a :href="'#' + section" @click.prevent="
+                          document.getElementById(section).scrollIntoView({ behavior: 'smooth' });
+                          isOpen = false;
+                      " :class="{
+                          'text-blue-700': activeSection === section,
+                          'text-gray-900': activeSection !== section
+                      }" class="block py-2 pl-3 pr-4 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-800 md:p-0 transition-colors">
+                                <span
+                                    x-text="section.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')"></span>
+                            </a>
+                        </li>
+                    </template>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section / Landing Page -->
+    <section id="beranda" class="bg-gradient-to-b from-blue-100 to-white pt-32 pb-16">
+        <div class="max-w-screen-xl mx-auto px-4 md:px-8 flex flex-col md:flex-row items-center justify-between">
+            <div class="md:w-1/2 mb-10 md:mb-0">
+                <h1 class="text-4xl md:text-5xl font-bold text-blue-900 mb-4">Wujudkan Acara Impian Anda Bersama Kami
+                </h1>
+                <p class="text-lg text-gray-600 mb-8">Kami menyediakan layanan perencanaan acara terbaik untuk
+                    pernikahan, ulang tahun, corporate event, dan acara spesial lainnya.</p>
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <a href="#paket"
+                        class="inline-flex justify-center items-center py-3 px-6 text-center text-white bg-blue-700 hover:bg-blue-800 rounded-lg">
+                        Lihat Paket Layanan
+                        <svg class="w-3.5 h-3.5 ml-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                            viewBox="0 0 14 10">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M1 5h12m0 0L9 1m4 4L9 9" />
+                        </svg>
+                    </a>
+                    <a href="#kontak"
+                        class="inline-flex justify-center items-center py-3 px-6 text-center text-blue-700 border border-blue-700 hover:bg-blue-50 rounded-lg">
+                        Konsultasi Gratis
+                    </a>
+                </div>
+            </div>
+            <div class="md:w-1/2">
+                <img src="images/logo.jpeg" alt="Event Planning" class="rounded-lg shadow-xl w-full">
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="py-10 bg-white">
+        <div class="max-w-screen-xl mx-auto px-4 md:px-8">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+                <div class="bg-blue-50 p-6 rounded-lg shadow-sm">
+                    <h3 class="text-3xl font-bold text-blue-800">250+</h3>
+                    <p class="text-gray-600">Acara Sukses</p>
+                </div>
+                <div class="bg-blue-50 p-6 rounded-lg shadow-sm">
+                    <h3 class="text-3xl font-bold text-blue-800">150+</h3>
+                    <p class="text-gray-600">Pasangan Bahagia</p>
+                </div>
+                <div class="bg-blue-50 p-6 rounded-lg shadow-sm">
+                    <h3 class="text-3xl font-bold text-blue-800">50+</h3>
+                    <p class="text-gray-600">Corporate Events</p>
+                </div>
+                <div class="bg-blue-50 p-6 rounded-lg shadow-sm">
+                    <h3 class="text-3xl font-bold text-blue-800">10+</h3>
+                    <p class="text-gray-600">Tahun Pengalaman</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Us Section -->
+    <section id="tentang-kami" class="py-16 bg-gray-50">
+        <div class="max-w-screen-xl mx-auto px-4 md:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-blue-900 mb-4">Tentang Kami</h2>
+                <div class="w-20 h-1 bg-blue-700 mx-auto mb-6"></div>
+                <p class="text-gray-600 max-w-2xl mx-auto">Kami adalah tim profesional yang berdedikasi untuk mewujudkan
+                    acara impian Anda menjadi kenyataan.</p>
+            </div>
+
+            <div class="flex flex-col md:flex-row items-center gap-10">
+                <div class="md:w-1/2">
+                    <img src="images/logo.jpeg" alt="Tim Woncrew" class="rounded-lg shadow-lg w-full">
+                </div>
+                <div class="md:w-1/2">
+                    <h3 class="text-2xl font-semibold text-blue-800 mb-4">Mengapa Memilih Woncrew Organizer?</h3>
+                    <p class="text-gray-600 mb-6">Woncrew Organizer didirikan pada tahun 2013 dengan visi untuk
+                        memberikan layanan perencanaan acara terbaik yang disesuaikan dengan kebutuhan dan anggaran
+                        klien. Kami memahami bahwa setiap acara adalah unik dan personal, oleh karena itu kami selalu
+                        berusaha memberikan sentuhan istimewa pada setiap proyek kami.</p>
+
+                    <div class="space-y-4">
+                        <div class="flex items-start">
+                            <div
+                                class="flex-shrink-0 w-12 h-12 flex items-center justify-center rounded-full bg-blue-100 text-blue-800">
+                                <i class="fas fa-handshake text-xl"></i>
+                            </div>
+                            <div class="ml-4">
+                                <h4 class="text-lg font-semibold text-gray-800">Tim Profesional</h4>
+                                <p class="text-gray-600">Tim kami terdiri dari para profesional berpengalaman yang siap
+                                    memberikan layanan terbaik.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div
+                                class="flex-shrink-0 w-12 h-12 flex items-center justify-center rounded-full bg-blue-100 text-blue-800">
+                                <i class="fas fa-gem text-xl"></i>
+                            </div>
+                            <div class="ml-4">
+                                <h4 class="text-lg font-semibold text-gray-800">Kualitas Premium</h4>
+                                <p class="text-gray-600">Kami berkomitmen untuk memberikan layanan berkualitas tinggi
+                                    dengan harga yang kompetitif.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div
+                                class="flex-shrink-0 w-12 h-12 flex items-center justify-center rounded-full bg-blue-100 text-blue-800">
+                                <i class="fas fa-heart text-xl"></i>
+                            </div>
+                            <div class="ml-4">
+                                <h4 class="text-lg font-semibold text-gray-800">Kepuasan Klien</h4>
+                                <p class="text-gray-600">Kepuasan klien adalah prioritas utama kami, kami selalu
+                                    berusaha memberikan yang terbaik.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="py-16 bg-white">
+        <div class="max-w-screen-xl mx-auto px-4 md:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-blue-900 mb-4">Layanan Kami</h2>
+                <div class="w-20 h-1 bg-blue-700 mx-auto mb-6"></div>
+                <p class="text-gray-600 max-w-2xl mx-auto">Kami menawarkan berbagai layanan perencanaan acara untuk
+                    memenuhi kebutuhan Anda.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="bg-gray-50 rounded-lg shadow-md overflow-hidden transition-transform hover:scale-105">
+                    <img src="images/logo.jpeg" alt="Wedding Organizer" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold text-blue-800 mb-2">Wedding Organizer</h3>
+                        <p class="text-gray-600 mb-4">Kami menawarkan layanan perencanaan pernikahan lengkap mulai dari
+                            pre-wedding hingga resepsi.</p>
+                        <a href="detail.html" class="text-blue-700 hover:text-blue-800 font-medium inline-flex items-center">
+                            Selengkapnya
+                            <svg class="w-3.5 h-3.5 ml-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                                fill="none" viewBox="0 0 14 10">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                    stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9" />
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+                <div class="bg-gray-50 rounded-lg shadow-md overflow-hidden transition-transform hover:scale-105">
+                    <img src="images/logo.jpeg" alt="Corporate Events" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold text-blue-800 mb-2">Corporate Events</h3>
+                        <p class="text-gray-600 mb-4">Layanan perencanaan acara perusahaan, mulai dari seminar,
+                            launching produk, hingga gala dinner.</p>
+                        <a href="detail.html" class="text-blue-700 hover:text-blue-800 font-medium inline-flex items-center">
+                            Selengkapnya
+                            <svg class="w-3.5 h-3.5 ml-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                                fill="none" viewBox="0 0 14 10">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                    stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9" />
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+                <div class="bg-gray-50 rounded-lg shadow-md overflow-hidden transition-transform hover:scale-105">
+                    <img src="images/logo.jpeg" alt="Birthday Party" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold text-blue-800 mb-2">Birthday & Celebration</h3>
+                        <p class="text-gray-600 mb-4">Perencanaan pesta ulang tahun, anniversary, baby shower, dan
+                            perayaan spesial lainnya.</p>
+                        <a href="detail.html" class="text-blue-700 hover:text-blue-800 font-medium inline-flex items-center">
+                            Selengkapnya
+                            <svg class="w-3.5 h-3.5 ml-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                                fill="none" viewBox="0 0 14 10">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                    stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9" />
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Package & Pricing Section -->
+    <section id="paket" class="py-16 bg-gradient-to-b from-blue-50 to-white">
+        <div class="max-w-screen-xl mx-auto px-4 md:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-blue-900 mb-4">Paket & Harga</h2>
+                <div class="w-20 h-1 bg-blue-700 mx-auto mb-6"></div>
+                <p class="text-gray-600 max-w-2xl mx-auto">Kami menawarkan berbagai paket yang dapat disesuaikan dengan
+                    kebutuhan dan anggaran Anda.</p>
+            </div>
+
+            <!-- Wedding Packages -->
+            <h3 class="text-2xl font-semibold text-blue-800 mb-6 text-center">Paket Pernikahan</h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200 flex flex-col">
+                    <div class="bg-blue-100 p-6 text-center">
+                        <h4 class="text-xl font-bold text-blue-900">Paket Silver</h4>
+                        <p class="text-3xl font-bold text-blue-800 mt-2">Rp 25.000.000</p>
+                    </div>
+                    <div class="p-6 flex-grow">
+                        <ul class="space-y-3">
+                            <li class="flex items-start">
+                                <svg class="w-4 h-4 text-green-500 mt-1 mr-2" fill="currentColor" viewBox="0 0 20 20"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd"
+                                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                                        clip-rule="evenodd"></path>
+                                </svg>
+                                <span>Wedding Organizer (8 jam)</span>
+                            </li>
+                            <li class="flex items-start">
+                                <svg class="w-4 h-4 text-green-500 mt-1 mr-2" fill="currentColor" viewBox="0 0 20 20"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd"
+                                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                                        clip-rule="evenodd"></path>
+                                </svg>
+                                <span>Dekorasi Standar</span>
+                            </li>
+                            <li class="flex items-start">
+                                <svg class="w-4 h-4 text-green-500 mt-1 mr-2" fill="currentColor" viewBox="0 0 20 20"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd"
+                                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                                        clip-rule="evenodd"></path>
+                                </svg>
+                                <span>MC Profesional</span>
+                            </li>
+                            <li class="flex items-start">
+                                <svg class="w-4 h-4 text-green-500 mt-1 mr-2" fill="currentColor" viewBox="0 0 20 20"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd"
+                                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                                        clip-rule="evenodd"></path>
+                                </svg>
+                                <span>Dokumentasi (1 Fotografer)</span>
+                            </li>
+                            <li class="flex items-start text-gray-400">
+                                <svg class="w-4 h-4 text-gray-400 mt-1 mr-2" fill="currentColor" viewBox="0 0 20 20"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd"
+                                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z"
+                                        clip-rule="evenodd"></path>
+                                </svg>
+                                <span>Entertainment</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="p-6 pt-0">
+                        <a href="#kontak"
+                            class="block w-full py-3 px-4 text-center font-medium text-white bg-blue-700 hover:bg-blue-800 rounded-lg">Booking
+                            Sekarang</a>
+                    </div>
+                </div>
+                <div
+                    class="bg-white rounded-lg shadow-lg overflow-hidden border-2 border-blue-500 flex flex-col transform scale-105">
+                    <div class="bg-blue-600 p-6 text-center">
+                        <span
+                            class="inline-block px-3 py-1 text-xs font-medium text-white bg-blue-800 rounded-full mb-2">POPULAR</span>
+                        <h4 class="text-xl font-bold text-white">Paket Gold</h4>
+                        <p class="text-3xl font-bold text-white mt-2">Rp 40.000.000</p>
+                    </div>
+                    <div class="p-6 flex-grow">
+                        <ul class="space-y-3">
+                            <li class="flex items-start">
+                                <svg class="w-4 h-4 text-green-500 mt-1 mr-2" fill="currentColor" viewBox="0 0 20 20"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd"
+                                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                                        clip-rule="evenodd"></path>
+                                </svg>
+                                <span>Wedding Organizer (12 jam)</span>
+                            </li>
+                            <li class="flex items-start">
+                                <svg class="w-4 h-4 text-green-500 mt-1 mr-2" fill="currentColor" viewBox="0 0 20 20"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd"
+                                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                                        clip-rule="evenodd"></path>
+                                </svg>
+                                <span>Dekorasi Premium</span>
+                            </li>
+                            <li class="flex items-start">
+                                <svg class="w-4 h-4 text-green-500 mt-1 mr-2" fill="currentColor" viewBox="0 0 20 20"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd"
+                                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                                        clip-rule="evenodd"></path>
+                                </svg>
+                                <span>MC Profesional</span>
+                            </li>
+                            <li class="flex items-start">
+                                <svg class="w-4 h-4 text-green-500 mt-1 mr-2" fill="currentColor" viewBox="0 0 20 20"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd"
+                                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                                        clip-rule="evenodd"></path>
+                                </svg>
+                                <span>Dokumentasi (2 Fotografer, 1 Videografer)</span>
+                            </li>
+                            <li class="flex items-start">
+                                <svg class="w-4 h-4 text-green-500 mt-1 mr-2" fill="currentColor" viewBox="0 0 20 20"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd"
+                                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                                        clip-rule="evenodd"></path>
+                                </svg>
+                                <span>Entertainment (Live Music)</span>
+                            </li>
+                            <li class="flex items-start">
+                                <svg class="w-4 h-4 text-green-500 mt-1 mr-2" fill="currentColor" viewBox="0 0 20 20"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd"
+                                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                                        clip-rule="evenodd"></path>
+                                </svg>
+                                <span>Pre-Wedding Photoshoot</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="p-6 pt-0">
+                        <a href="#kontak"
+                            class="block w-full py-3 px-4 text-center font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-lg">Booking
+                            Sekarang</a>
+                    </div>
+                </div>
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200 flex flex-col">
+                    <div class="bg-blue-100 p-6 text-center">
+                        <h4 class="text-xl font-bold text-blue-900">Paket Platinum</h4>
+                        <p class="text-3xl font-bold text-blue-800 mt-2">Rp 75.000.000</p>
+                    </div>
+                    <div class="p-6 flex-grow">
+                        <ul class="space-y-3">
+                            <li class="flex items-start">
+                                <svg class="w-4 h-4 text-green-500 mt-1 mr-2" fill="currentColor" viewBox="0 0 20 20"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd"
+                                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                                        clip-rule="evenodd"></path>
+                                </svg>
+                                <span>Wedding Organizer (Full Day)</span>
+                            </li>
+                            <li class="flex items-start">
+                                <svg class="w-4 h-4 text-green-500 mt-1 mr-2" fill="currentColor" viewBox="0 0 20 20"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd"
+                                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                                        clip-rule="evenodd"></path>
+                                </svg>
+                                <span>Dekorasi Luxury</span>
+                            </li>
+                            <li class="flex items-start">
+                                <svg class="w-4 h-4 text-green-500 mt-1 mr-2" fill="currentColor" viewBox="0 0 20 20"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd"
+                                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                                        clip-rule="evenodd"></path>
+                                </svg>
+                                <span>MC Celebrity</span>
+                            </li>
+                            <li class="flex items-start">
+                                <svg class="w-4 h-4 text-green-500 mt-1 mr-2" fill="currentColor" viewBox="0 0 20 20"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd"
+                                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                                        clip-rule="evenodd"></path>
+                                </svg>
+                                <span>Dokumentasi Lengkap (3 Fotografer, 2 Videografer)</span>
+                            </li>
+                            <li class="flex items-start">
+                                <svg class="w-4 h-4 text-green-500 mt-1 mr-2" fill="currentColor" viewBox="0 0 20 20"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd"
+                                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                                        clip-rule="evenodd"></path>
+                                </svg>
+                                <span>Entertainment (Live Band)</span>
+                            </li>
+                            <li class="flex items-start">
+                                <svg class="w-4 h-4 text-green-500 mt-1 mr-2" fill="currentColor" viewBox="0 0 20 20"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd"
+                                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                                        clip-rule="evenodd"></path>
+                                </svg>
+                                <span>Pre-Wedding & Post-Wedding Photoshoot</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="p-6 pt-0">
+                        <a href="#kontak"
+                            class="block w-full py-3 px-4 text-center font-medium text-white bg-blue-700 hover:bg-blue-800 rounded-lg">Booking
+                            Sekarang</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Corporate Packages -->
+            <h3 class="text-2xl font-semibold text-blue-800 mb-6 text-center">Paket Corporate Event</h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200 flex flex-col">
+                    <div class="bg-blue-100 p-6 text-center">
+                        <h4 class="text-xl font-bold text-blue-900">Paket Meeting</h4>
+                        <p class="text-3xl font-bold text-blue-800 mt-2">Rp 15.000.000</p>
+                    </div>
+                    <div class="p-6 flex-grow">
+                        <ul class="space-y-3">
+                            <li class="flex items-start">
+                                <svg class="w-4 h-4 text-green-500 mt-1 mr-2" fill="currentColor" viewBox="0 0 20 20"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd"
+                                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                                        clip-rule="evenodd"></path>
+                                </svg>
+                                <span>Event Organizer (8 jam)</span>
+                            </li>
+                            <li class="flex items-start">
+                                <svg class="w-4 h-4 text-green-500 mt-1 mr-2" fill="currentColor" viewBox="0 0 20 20"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd"
+                                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                                        clip-rule="evenodd"></path>
+                                </svg>
+                                <span>Setting Ruangan Meeting</span>
+                            </li>
+                            <li class="flex items-start">
+                                <svg class="w-4 h-4 text-green-500 mt-1 mr-2" fill="currentColor" viewBox="0 0 20 20"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd"
+                                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                                        clip-rule="evenodd"></path>
+                                </svg>
+                                <span>Sound System & Multimedia</span>
+                            </li>
+                            <li class="flex items-start">
+                                <svg class="w-4 h-4 text-green-500 mt-1 mr-2" fill="currentColor" viewBox="0 0 20 20"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd"
+                                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                                        clip-rule="evenodd"></path>
+                                </svg>
+                                <span>Coffee Break</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="p-6 pt-0">
+                        <a href="#kontak"
+                            class="block w-full py-3 px-4 text-center font-medium text-white bg-blue-700 hover:bg-blue-800 rounded-lg">Booking
+                            Sekarang</a>
+                    </div>
+                </div>
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200 flex flex-col">
+                    <div class="bg-blue-100 p-6 text-center">
+                        <h4 class="text-xl font-bold text-blue-900">Paket Seminar</h4>
+                        <p class="text-3xl font-bold text-blue-800 mt-2">Rp 35.000.000</p>
+                    </div>
+                    <div class="p-6 flex-grow">
+                        <ul class="space-y-3">
+                            <li class="flex items-start">
+                                <svg class="w-4 h-4 text-green-500 mt-1 mr-2" fill="currentColor" viewBox="0 0 20 20"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd"
+                                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                                        clip-rule="evenodd"></path>
+                                </svg>
+                                <span>Event Organizer (Full Day)</span>
+                            </li>
+                            <li class="flex items-start">
+                                <svg class="w-4 h-4 text-green-500 mt-1 mr-2" fill="currentColor" viewBox="0 0 20 20"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd"
+                                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                                        clip-rule="evenodd"></path>
+                                </svg>
+                                <span>Setting Ruangan Seminar</span>
+                            </li>
+                            <li class="flex items-start">
+                                <svg class="w-4 h-4 text-green-500 mt-1 mr-2" fill="currentColor" viewBox="0 0 20 20"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd"
+                                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                                        clip-rule="evenodd"></path>
+                                </svg>
+                                <span>Sound System & Multimedia</span>
+                            </li>
+                            <li class="flex items-start">
+                                <svg class="w-4 h-4 text-green-500 mt-1 mr-2" fill="currentColor" viewBox="0 0 20 20"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd"
+                                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                                        clip-rule="evenodd"></path>
+                                </svg>
+                                <span>Coffee Break & Lunch</span>
+                            </li>
+                            <li class="flex items-start">
+                                <svg class="w-4 h-4 text-green-500 mt-1 mr-2" fill="currentColor" viewBox="0 0 20 20"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd"
+                                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                                        clip-rule="evenodd"></path>
+                                </svg>
+                                <span>Dokumentasi</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="p-6 pt-0">
+                        <a href="#kontak"
+                            class="block w-full py-3 px-4 text-center font-medium text-white bg-blue-700 hover:bg-blue-800 rounded-lg">Booking
+                            Sekarang</a>
+                    </div>
+                </div>
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200 flex flex-col">
+                    <div class="bg-blue-100 p-6 text-center">
+                        <h4 class="text-xl font-bold text-blue-900">Paket Gala Dinner</h4>
+                        <p class="text-3xl font-bold text-blue-800 mt-2">Rp 50.000.000</p>
+                    </div>
+                    <div class="p-6 flex-grow">
+                        <ul class="space-y-3">
+                            <li class="flex items-start">
+                                <svg class="w-4 h-4 text-green-500 mt-1 mr-2" fill="currentColor" viewBox="0 0 20 20"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd"
+                                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                                        clip-rule="evenodd"></path>
+                                </svg>
+                                <span>Event Organizer (Full Day)</span>
+                            </li>
+                            <li class="flex items-start">
+                                <svg class="w-4 h-4 text-green-500 mt-1 mr-2" fill="currentColor" viewBox="0 0 20 20"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd"
+                                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                                        clip-rule="evenodd"></path>
+                                </svg>
+                                <span>Dekorasi Premium</span>
+                            </li>
+                            <li class="flex items-start">
+                                <svg class="w-4 h-4 text-green-500 mt-1 mr-2" fill="currentColor" viewBox="0 0 20 20"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd"
+                                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                                        clip-rule="evenodd"></path>
+                                </svg>
+                                <span>MC Profesional</span>
+                            </li>
+                            <li class="flex items-start">
+                                <svg class="w-4 h-4 text-green-500 mt-1 mr-2" fill="currentColor" viewBox="0 0 20 20"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd"
+                                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                                        clip-rule="evenodd"></path>
+                                </svg>
+                                <span>Live Music Entertainment</span>
+                            </li>
+                            <li class="flex items-start">
+                                <svg class="w-4 h-4 text-green-500 mt-1 mr-2" fill="currentColor" viewBox="0 0 20 20"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd"
+                                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                                        clip-rule="evenodd"></path>
+                                </svg>
+                                <span>Dokumentasi Lengkap</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="p-6 pt-0">
+                        <a href="#kontak"
+                            class="block w-full py-3 px-4 text-center font-medium text-white bg-blue-700 hover:bg-blue-800 rounded-lg">Booking
+                            Sekarang</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center mt-12">
+                <p class="text-gray-600 mb-6">Butuh paket khusus yang sesuai kebutuhan Anda? Jangan ragu untuk
+                    menghubungi kami!</p>
+                <a href="#kontak"
+                    class="inline-flex items-center py-3 px-6 text-center text-white bg-blue-700 hover:bg-blue-800 rounded-lg">
+                    Konsultasi Paket Custom
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section id="galeri" class="py-16 bg-white">
+        <div class="max-w-screen-xl mx-auto px-4 md:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-blue-900 mb-4">Galeri Acara</h2>
+                <div class="w-20 h-1 bg-blue-700 mx-auto mb-6"></div>
+                <p class="text-gray-600 max-w-2xl mx-auto">Beberapa acara yang telah kami selenggarakan dengan sukses.
+                </p>
+            </div>
+
+            <div class="" x-data="{ 
+                activeModal: null,
+                galleryItems: [
+                    {
+                        id: 1,
+                        title: 'Pernikahan Mewah',
+                        description: 'Acara pernikahan dengan dekorasi mewah dan suasana romantis.',
+                        detailDescription: 'Acara pernikahan dengan dekorasi mewah dan suasana romantis. Kami menyediakan layanan lengkap mulai dari dekorasi, catering, hingga hiburan.',
+                        image: 'images/logo.jpeg',
+                        alt: 'Wedding Event'
+                    },
+                    {
+                        id: 2,
+                        title: 'Corporate Meeting',
+                        description: 'Acara meeting perusahaan dengan suasana profesional.',
+                        detailDescription: 'Acara meeting perusahaan dengan suasana profesional. Kami menyediakan ruangan meeting, sound system, dan catering.',
+                        image: 'images/logo.jpeg',
+                        alt: 'Corporate Meeting'
+                    },
+                    {
+                        id: 3,
+                        title: 'Pesta Ulang Tahun',
+                        description: 'Pesta ulang tahun dengan tema yang menyenangkan.',
+                        detailDescription: 'Pesta ulang tahun dengan tema yang menyenangkan. Kami menyediakan dekorasi, kue ulang tahun, dan hiburan.',
+                        image: 'images/logo.jpeg',
+                        alt: 'Birthday Party'
+                    },
+                    {
+                        id: 4,
+                        title: 'Launching Produk',
+                        description: 'Acara launching produk dengan konsep modern.',
+                        detailDescription: 'Acara launching produk dengan konsep modern. Kami menyediakan panggung, sound system, dan multimedia.',
+                        image: 'images/logo.jpeg',
+                        alt: 'Product Launch'
+                    },
+                    {
+                        id: 5,
+                        title: 'Pesta Tunangan',
+                        description: 'Pesta tunangan dengan dekorasi elegan.',
+                        detailDescription: 'Pesta tunangan dengan dekorasi elegan. Kami menyediakan dekorasi, catering, dan hiburan.',
+                        image: 'images/logo.jpeg',
+                        alt: 'Engagement Party'
+                    },
+                    {
+                        id: 6,
+                        title: 'Gala Dinner',
+                        description: 'Acara gala dinner dengan suasana eksklusif.',
+                        detailDescription: 'Acara gala dinner dengan suasana eksklusif. Kami menyediakan dekorasi, catering, dan hiburan live music.',
+                        image: 'images/logo.jpeg',
+                        alt: 'Gala Dinner'
+                    }
+                ],
+                openModal(id) {
+                    this.activeModal = id;
+                    document.body.style.overflow = 'hidden';
+                },
+                closeModal() {
+                    this.activeModal = null;
+                    document.body.style.overflow = '';
+                }
+            }">
+                <div class="max-w-screen-xl mx-auto px-4 md:px-8">
+                    <div class="text-center mb-12">
+                        <h2 class="text-3xl font-bold text-blue-900 mb-4">Galeri Acara</h2>
+                        <div class="w-20 h-1 bg-blue-700 mx-auto mb-6"></div>
+                        <p class="text-gray-600 max-w-2xl mx-auto">Beberapa acara yang telah kami selenggarakan dengan
+                            sukses.</p>
+                    </div>
+
+                    <!-- Grid Galeri -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+                        <!-- Dinamis menggunakan Alpine.js -->
+                        <template x-for="item in galleryItems" :key="item.id">
+                            <div class="overflow-hidden rounded-lg shadow-md bg-white hover:shadow-xl transition-shadow duration-300 cursor-pointer"
+                                @click="openModal(item.id)">
+                                <img :src="item.image" :alt="item.alt"
+                                    class="w-full h-64 object-cover hover:scale-105 transition-transform duration-300">
+                                <div class="p-4">
+                                    <h3 class="text-lg font-semibold text-blue-800" x-text="item.title"></h3>
+                                    <p class="text-gray-600" x-text="item.description"></p>
+                                </div>
+                            </div>
+                        </template>
+                    </div>
+                </div>
+
+                <!-- Modal Popup (One modal template for all items) -->
+                <div class="fixed inset-0 z-50 bg-black bg-opacity-50 p-4 md:p-8 flex items-center justify-center"
+                    x-show="activeModal !== null" x-transition:enter="transition ease-out duration-300"
+                    x-transition:enter-start="opacity-0 transform scale-90"
+                    x-transition:enter-end="opacity-100 transform scale-100"
+                    x-transition:leave="transition ease-in duration-300"
+                    x-transition:leave-start="opacity-100 transform scale-100"
+                    x-transition:leave-end="opacity-0 transform scale-90" @click.self="closeModal()">
+                    <div class="bg-white rounded-lg max-w-3xl w-full p-6 relative">
+                        <button @click="closeModal()" class="absolute top-4 right-4 text-gray-600 hover:text-gray-900">
+                            <i class="fas fa-times"></i>
+                        </button>
+                        <template x-for="item in galleryItems.filter(i => i.id === activeModal)" :key="item.id">
+                            <div>
+                                <img :src="item.image" :alt="item.alt" class="w-full h-96 object-cover rounded-lg">
+                                <div class="mt-6">
+                                    <h3 class="text-2xl font-bold text-blue-800" x-text="item.title"></h3>
+                                    <p class="text-gray-600 mt-2" x-text="item.detailDescription"></p>
+                                </div>
+                            </div>
+                        </template>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center mt-10">
+                <a href="#" class="inline-flex items-center py-2 px-4 text-center text-blue-700 border border-blue-700 hover:bg-blue-50 rounded-lg">
+                    Lihat Semua Galeri
+                    <svg class="w-3.5 h-3.5 ml-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                        viewBox="0 0 14 10">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M1 5h12m0 0L9 1m4 4L9 9" />
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonial Section -->
+    <section id="testimoni" class="py-16 bg-gray-50">
+        <div class="max-w-screen-xl mx-auto px-4 md:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-blue-900 mb-4">Testimoni Klien</h2>
+                <div class="w-20 h-1 bg-blue-700 mx-auto mb-6"></div>
+                <p class="text-gray-600 max-w-2xl mx-auto">Apa kata klien kami tentang layanan yang kami berikan.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="bg-white p-6 rounded-lg shadow-md border border-gray-100">
+                    <div class="flex items-center mb-4">
+                        <div class="mr-4">
+                            <img src="images/logo.jpeg" alt="Client 1" class="w-12 h-12 rounded-full">
+                        </div>
+                        <div>
+                            <h4 class="text-lg font-semibold text-gray-800">Dewi Pratiwi</h4>
+                            <div class="flex text-yellow-400">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 italic">"Pernikahan kami berjalan sangat lancar berkat bantuan dari tim
+                        Woncrew Organizer. Mereka sangat profesional dan memperhatikan setiap detail. Terima kasih
+                        banyak!"</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md border border-gray-100">
+                    <div class="flex items-center mb-4">
+                        <div class="mr-4">
+                            <img src="images/logo.jpeg" alt="Client 2" class="w-12 h-12 rounded-full">
+                        </div>
+                        <div>
+                            <h4 class="text-lg font-semibold text-gray-800">Budi Santoso</h4>
+                            <div class="flex text-yellow-400">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star-half-alt"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 italic">"Launching produk perusahaan kami sukses besar dengan bantuan
+                        Woncrew. Respon mereka cepat dan selalu memberikan solusi terbaik untuk setiap masalah."</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md border border-gray-100">
+                    <div class="flex items-center mb-4">
+                        <div class="mr-4">
+                            <img src="images/logo.jpeg" alt="Client 3" class="w-12 h-12 rounded-full">
+                        </div>
+                        <div>
+                            <h4 class="text-lg font-semibold text-gray-800">Anita Wijaya</h4>
+                            <div class="flex text-yellow-400">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 italic">"Pesta ulang tahun anak saya jadi sangat meriah dan berkesan. Tim
+                        Woncrew sangat ramah dan sabar menghadapi berbagai permintaan kami. Highly recommended!"</p>
+                </div>
+            </div>
+
+            <div class="mt-12">
+                <div class="bg-blue-50 p-8 rounded-lg shadow-md border border-blue-100">
+                    <div class="text-center mb-6">
+                        <h3 class="text-2xl font-semibold text-blue-800">Apa yang Klien Kami Katakan</h3>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="flex items-start">
+                            <div
+                                class="flex-shrink-0 w-10 h-10 flex items-center justify-center rounded-full bg-blue-100 text-blue-800 mr-4">
+                                <i class="fas fa-check"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-lg font-semibold text-gray-800">Profesionalitas Tinggi</h4>
+                                <p class="text-gray-600">95% klien kami menyebutkan profesionalitas sebagai alasan
+                                    mereka puas dengan layanan kami.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div
+                                class="flex-shrink-0 w-10 h-10 flex items-center justify-center rounded-full bg-blue-100 text-blue-800 mr-4">
+                                <i class="fas fa-check"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-lg font-semibold text-gray-800">Komunikasi yang Baik</h4>
+                                <p class="text-gray-600">90% klien mengatakan bahwa komunikasi dengan tim kami lancar
+                                    dan responsif.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div
+                                class="flex-shrink-0 w-10 h-10 flex items-center justify-center rounded-full bg-blue-100 text-blue-800 mr-4">
+                                <i class="fas fa-check"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-lg font-semibold text-gray-800">Perhatian pada Detail</h4>
+                                <p class="text-gray-600">98% klien mengapresiasi perhatian kami terhadap detail-detail
+                                    kecil dalam acara mereka.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div
+                                class="flex-shrink-0 w-10 h-10 flex items-center justify-center rounded-full bg-blue-100 text-blue-800 mr-4">
+                                <i class="fas fa-check"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-lg font-semibold text-gray-800">Hasil yang Memuaskan</h4>
+                                <p class="text-gray-600">97% klien menyatakan puas dan akan merekomendasikan layanan
+                                    kami kepada teman dan keluarga.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact & Reservation Section -->
+    <section id="kontak" class="py-16 bg-gray-50">
+        <div class="max-w-screen-xl mx-auto px-4 md:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-blue-900 mb-4">Kontak & Reservasi</h2>
+                <div class="w-20 h-1 bg-blue-700 mx-auto mb-6"></div>
+                <p class="text-gray-600 max-w-2xl mx-auto">Hubungi kami untuk konsultasi gratis atau booking jadwal
+                    acara Anda.</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
+                <!-- Contact Information -->
+                <div>
+                    <h3 class="text-2xl font-semibold text-blue-800 mb-6">Informasi Kontak</h3>
+
+                    <div class="space-y-6">
+                        <div class="flex items-start">
+                            <div
+                                class="flex-shrink-0 w-12 h-12 flex items-center justify-center rounded-full bg-blue-100 text-blue-800">
+                                <i class="fas fa-map-marker-alt text-xl"></i>
+                            </div>
+                            <div class="ml-4">
+                                <h4 class="text-lg font-semibold text-gray-800">Alamat</h4>
+                                <p class="text-gray-600">Jl. Kebon Jeruk No. 123, Jakarta Barat, DKI Jakarta 11530</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start">
+                            <div
+                                class="flex-shrink-0 w-12 h-12 flex items-center justify-center rounded-full bg-blue-100 text-blue-800">
+                                <i class="fas fa-phone-alt text-xl"></i>
+                            </div>
+                            <div class="ml-4">
+                                <h4 class="text-lg font-semibold text-gray-800">Telepon</h4>
+                                <p class="text-gray-600">+62 812-3456-7890</p>
+                                <p class="text-gray-600">+62 21-7890-1234</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start">
+                            <div
+                                class="flex-shrink-0 w-12 h-12 flex items-center justify-center rounded-full bg-blue-100 text-blue-800">
+                                <i class="fas fa-envelope text-xl"></i>
+                            </div>
+                            <div class="ml-4">
+                                <h4 class="text-lg font-semibold text-gray-800">Email</h4>
+                                <p class="text-gray-600">info@woncreworganizer.com</p>
+                                <p class="text-gray-600">booking@woncreworganizer.com</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start">
+                            <div
+                                class="flex-shrink-0 w-12 h-12 flex items-center justify-center rounded-full bg-blue-100 text-blue-800">
+                                <i class="fas fa-clock text-xl"></i>
+                            </div>
+                            <div class="ml-4">
+                                <h4 class="text-lg font-semibold text-gray-800">Jam Operasional</h4>
+                                <p class="text-gray-600">Senin - Jumat: 09.00 - 17.00 WIB</p>
+                                <p class="text-gray-600">Sabtu: 09.00 - 15.00 WIB</p>
+                                <p class="text-gray-600">Minggu: Tutup (Dengan Perjanjian)</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-8">
+                        <h4 class="text-lg font-semibold text-gray-800 mb-4">Ikuti Kami</h4>
+                        <div class="flex space-x-4">
+                            <a href="#"
+                                class="w-10 h-10 rounded-full bg-blue-700 text-white flex items-center justify-center hover:bg-blue-800">
+                                <i class="fab fa-facebook-f"></i>
+                            </a>
+                            <a href="#"
+                                class="w-10 h-10 rounded-full bg-pink-600 text-white flex items-center justify-center hover:bg-pink-700">
+                                <i class="fab fa-instagram"></i>
+                            </a>
+                            <a href="#"
+                                class="w-10 h-10 rounded-full bg-red-600 text-white flex items-center justify-center hover:bg-red-700">
+                                <i class="fab fa-youtube"></i>
+                            </a>
+                            <a href="#"
+                                class="w-10 h-10 rounded-full bg-green-600 text-white flex items-center justify-center hover:bg-green-700">
+                                <i class="fab fa-whatsapp"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Reservation Form -->
+                <div class="bg-white p-8 rounded-lg shadow-md">
+                    <h3 class="text-2xl font-semibold text-blue-800 mb-6">Form Reservasi</h3>
+                
+                    <form class="space-y-6" action="send_email.php" method="POST">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label for="name" class="block mb-2 text-sm font-medium text-gray-700">Nama Lengkap</label>
+                                <input type="text" id="name" name="name"
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                    placeholder="Masukkan nama lengkap" required>
+                            </div>
+                            <div>
+                                <label for="email" class="block mb-2 text-sm font-medium text-gray-700">Email</label>
+                                <input type="email" id="email" name="email"
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                    placeholder="nama@example.com" required>
+                            </div>
+                        </div>
+                
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label for="phone" class="block mb-2 text-sm font-medium text-gray-700">Nomor Telepon</label>
+                                <input type="tel" id="phone" name="phone"
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                    placeholder="+62 8xx-xxxx-xxxx" required>
+                            </div>
+                            <div>
+                                <label for="event-type" class="block mb-2 text-sm font-medium text-gray-700">Jenis Acara</label>
+                                <select id="event-type" name="event_type"
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                                    <option selected>Pilih jenis acara</option>
+                                    <option value="wedding">Pernikahan</option>
+                                    <option value="birthday">Ulang Tahun</option>
+                                    <option value="corporate">Corporate Event</option>
+                                    <option value="other">Lainnya</option>
+                                </select>
+                            </div>
+                        </div>
+                
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label for="event-date" class="block mb-2 text-sm font-medium text-gray-700">Tanggal Acara</label>
+                                <input type="date" id="event-date" name="event_date"
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                    required>
+                            </div>
+                            <div>
+                                <label for="guest-count" class="block mb-2 text-sm font-medium text-gray-700">Perkiraan Jumlah Tamu</label>
+                                <input type="number" id="guest-count" name="guest_count"
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                    placeholder="100" required>
+                            </div>
+                        </div>
+                
+                        <div>
+                            <label for="message" class="block mb-2 text-sm font-medium text-gray-700">Deskripsi Acara</label>
+                            <textarea id="message" name="message" rows="4"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                placeholder="Ceritakan detail acara yang Anda rencanakan..."></textarea>
+                        </div>
+                
+                        <div class="flex items-start">
+                            <div class="flex items-center h-5">
+                                <input id="terms" name="terms" type="checkbox"
+                                    class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300"
+                                    required>
+                            </div>
+                            <label for="terms" class="ml-2 text-sm font-medium text-gray-700">Saya setuju dengan <a
+                                    href="#" class="text-blue-600 hover:underline">syarat dan ketentuan</a> yang berlaku</label>
+                        </div>
+                
+                        <button type="submit"
+                            class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-3 text-center">Kirim
+                            Reservasi</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Map Section -->
+    <section class="py-10 bg-white">
+        <div class="max-w-screen-xl mx-auto px-4 md:px-8">
+            <div class="rounded-lg overflow-hidden shadow-lg">
+                <iframe
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3966.2775792371393!2d106.82496707673567!3d-6.225290393756339!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69f3f3fa4f8bb7%3A0x6c63a2fd3efd21e1!2sWoncrew%20Organizer!5e0!3m2!1sen!2sid!4v1708604288901!5m2!1sen!2sid"
+                    width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy"
+                    referrerpolicy="no-referrer-when-downgrade">
+                </iframe>
+            </div>
+        </div>
+    </section>
+
+<!-- Footer -->
+<footer class="bg-blue-900 text-white py-12">
+    <div class="max-w-screen-xl mx-auto px-4 md:px-8">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+            <div class="md:col-span-1">
+                <div class="flex items-center mb-4">
+                    <img src="/api/placeholder/50/50" alt="Woncrew Logo" class="h-10 w-10 mr-3">
+                    <div>
+                        <h3 class="text-xl font-bold">WONCREW</h3>
+                        <p class="text-xs text-blue-200">EVENT PLANNER & WEDDING ORGANIZER</p>
+                    </div>
+                </div>
+                <p class="text-blue-200 mb-4">Wujudkan acara impian Anda bersama Woncrew Organizer. Kami memberikan layanan perencanaan acara terbaik untuk momen spesial Anda.</p>
+                <div class="flex space-x-4">
+                    <a href="#" class="text-blue-200 hover:text-white">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="#" class="text-blue-200 hover:text-white">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="#" class="text-blue-200 hover:text-white">
+                        <i class="fab fa-youtube"></i>
+                    </a>
+                    <a href="#" class="text-blue-200 hover:text-white">
+                        <i class="fab fa-whatsapp"></i>
+                    </a>
+                </div>
+            </div>
+            
+            <div>
+                <h3 class="text-lg font-semibold mb-4 border-b border-blue-700 pb-2">Layanan Kami</h3>
+                <ul class="space-y-2">
+                    <li><a href="#" class="text-blue-200 hover:text-white">Wedding Organizer</a></li>
+                    <li><a href="#" class="text-blue-200 hover:text-white">Corporate Event</a></li>
+                    <li><a href="#" class="text-blue-200 hover:text-white">Birthday Party</a></li>
+                    <li><a href="#" class="text-blue-200 hover:text-white">Gala Dinner</a></li>
+                    <li><a href="#" class="text-blue-200 hover:text-white">Product Launching</a></li>
+                </ul>
+            </div>
+            
+            <div>
+                <h3 class="text-lg font-semibold mb-4 border-b border-blue-700 pb-2">Tautan Cepat</h3>
+                <ul class="space-y-2">
+                    <li><a href="#beranda" class="text-blue-200 hover:text-white">Beranda</a></li>
+                    <li><a href="#tentang-kami" class="text-blue-200 hover:text-white">Tentang Kami</a></li>
+                    <li><a href="#paket" class="text-blue-200 hover:text-white">Paket & Harga</a></li>
+                    <li><a href="#galeri" class="text-blue-200 hover:text-white">Galeri</a></li>
+                    <li><a href="#testimoni" class="text-blue-200 hover:text-white">Testimoni</a></li>
+                    <li><a href="#kontak" class="text-blue-200 hover:text-white">Kontak</a></li>
+                </ul>
+            </div>
+            
+            <div>
+                <h3 class="text-lg font-semibold mb-4 border-b border-blue-700 pb-2">Kontak Kami</h3>
+                <ul class="space-y-3">
+                    <li class="flex items-start">
+                        <i class="fas fa-map-marker-alt mt-1 mr-3 text-blue-300"></i>
+                        <span class="text-blue-200">Jl. Kebon Jeruk No. 123, Jakarta Barat, DKI Jakarta 11530</span>
+                    </li>
+                    <li class="flex items-start">
+                        <i class="fas fa-phone-alt mt-1 mr-3 text-blue-300"></i>
+                        <span class="text-blue-200">+62 812-3456-7890</span>
+                    </li>
+                    <li class="flex items-start">
+                        <i class="fas fa-envelope mt-1 mr-3 text-blue-300"></i>
+                        <span class="text-blue-200">info@woncreworganizer.com</span>
+                    </li>
+                    <li class="flex items-start">
+                        <i class="fas fa-clock mt-1 mr-3 text-blue-300"></i>
+                        <span class="text-blue-200">Senin - Jumat: 09.00 - 17.00 WIB</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="mt-12 pt-6 border-t border-blue-800 text-center">
+            <p class="text-blue-200">&copy; 2025 Woncrew Organizer. All Rights Reserved.</p>
+        </div>
+    </div>
+</footer>
+
+    <!-- Back to Top Button -->
+    <button id="back-to-top"
+        class="fixed bottom-6 right-6 bg-blue-700 text-white w-12 h-12 rounded-full flex items-center justify-center shadow-lg opacity-0 transition-opacity duration-300 hover:bg-blue-800">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+<!-- Simple JS for Back to Top functionality -->
+<script>
+    // Back to Top Button
+    const backToTopButton = document.getElementById('back-to-top');
+    
+    window.addEventListener('scroll', () => {
+        if (window.pageYOffset > 300) {
+            backToTopButton.classList.add('opacity-100');
+            backToTopButton.classList.remove('opacity-0');
+        } else {
+            backToTopButton.classList.add('opacity-0');
+            backToTopButton.classList.remove('opacity-100');
+        }
+    });
+    
+    backToTopButton.addEventListener('click', () => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    });
+</script>

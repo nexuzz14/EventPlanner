@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Layanan Wedding Organizer - Woncrew</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.0/flowbite.min.css" rel="stylesheet" />
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/alpinejs/3.13.3/cdn.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+</head>
+
+<body class="bg-gray-50 font-sans">
+    <!-- Navbar (Sama dengan halaman utama) -->
+    <div class="fixed top-4 left-4 z-50">
+      <a href="index.html#" class="bg-blue-700 text-white p-3 rounded-full shadow-lg hover:bg-blue-800 transition-colors duration-300">
+          <i class="fas fa-arrow-left"></i>
+      </a>
+  </div>
+
+    <!-- Hero Section -->
+    <section class="bg-gradient-to-b from-blue-100 to-white pt-32 pb-16">
+        <div class="max-w-screen-xl mx-auto px-4 md:px-8">
+            <div class="flex flex-col md:flex-row items-center justify-between">
+                <div class="md:w-1/2 mb-10 md:mb-0">
+                    <h1 class="text-4xl md:text-5xl font-bold text-blue-900 mb-4">Layanan Wedding Organizer Profesional</h1>
+                    <p class="text-lg text-gray-600 mb-8">Wujudkan pernikahan impian Anda dengan layanan lengkap dari perencanaan hingga eksekusi.</p>
+                    <a href="#kontak"
+                        class="inline-flex justify-center items-center py-3 px-6 text-center text-white bg-blue-700 hover:bg-blue-800 rounded-lg">
+                        Konsultasi Gratis
+                    </a>
+                </div>
+                <div class="md:w-1/2">
+                  <img src="https://picsum.photos/600/400" 
+                       alt="Wedding Organizer" 
+                       class="rounded-lg shadow-xl w-full">
+                </div>
+                
+            </div>
+        </div>
+    </section>
+
+    <!-- Detail Layanan -->
+    <section class="py-16 bg-white">
+        <div class="max-w-screen-xl mx-auto px-4 md:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
+                <div class="lg:col-span-2">
+                    <h2 class="text-3xl font-bold text-blue-900 mb-6">Apa yang Kami Tawarkan</h2>
+                    <div class="space-y-6">
+                        <div class="bg-blue-50 p-6 rounded-lg">
+                            <h3 class="text-xl font-semibold text-blue-800 mb-3">Paket Lengkap Pernikahan</h3>
+                            <p class="text-gray-600 mb-4">Kami menyediakan layanan end-to-end yang mencakup:</p>
+                            <ul class="list-disc list-inside space-y-2 text-gray-600">
+                                <li>Konsultasi konsep pernikahan</li>
+                                <li>Manajemen vendor dan negosiasi harga</li>
+                                <li>Dekorasi lengkap (pelaminan, resepsi, dll)</li>
+                                <li>Koordinator acara profesional</li>
+                                <li>Manajemen waktu dan rundown acara</li>
+                                <li>Dokumentasi lengkap (foto & video)</li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-blue-50 p-6 rounded-lg">
+                            <h3 class="text-xl font-semibold text-blue-800 mb-3">Jenis Layanan</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div class="p-4 bg-white rounded-lg shadow-sm">
+                                    <i class="fas fa-ring text-blue-700 text-2xl mb-3"></i>
+                                    <h4 class="font-semibold mb-2">Pernikahan Adat</h4>
+                                    <p class="text-gray-600 text-sm">Pelaksanaan sesuai tradisi dan budaya daerah</p>
+                                </div>
+                                <div class="p-4 bg-white rounded-lg shadow-sm">
+                                    <i class="fas fa-glass-cheers text-blue-700 text-2xl mb-3"></i>
+                                    <h4 class="font-semibold mb-2">Pernikahan Modern</h4>
+                                    <p class="text-gray-600 text-sm">Konsep kontemporer dan minimalis</p>
+                                </div>
+                                <div class="p-4 bg-white rounded-lg shadow-sm">
+                                    <i class="fas fa-umbrella-beach text-blue-700 text-2xl mb-3"></i>
+                                    <h4 class="font-semibold mb-2">Pernikahan Destination</h4>
+                                    <p class="text-gray-600 text-sm">Pernikahan di lokasi eksklusif</p>
+                                </div>
+                                <div class="p-4 bg-white rounded-lg shadow-sm">
+                                    <i class="fas fa-heart text-blue-700 text-2xl mb-3"></i>
+                                    <h4 class="font-semibold mb-2">Pernikahan Intim</h4>
+                                    <p class="text-gray-600 text-sm">Untuk tamu terbatas (max 50 orang)</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sidebar -->
+                <div class="lg:col-span-1">
+                    <div class="bg-blue-50 p-6 rounded-lg shadow-sm sticky top-32">
+                        <h3 class="text-xl font-semibold text-blue-800 mb-4">Proses Kerja Kami</h3>
+                        <ol class="space-y-4">
+                            <li class="flex items-start">
+                                <div class="flex-shrink-0 w-8 h-8 bg-blue-700 text-white rounded-full flex items-center justify-center mr-3">1</div>
+                                <div>
+                                    <h4 class="font-semibold">Konsultasi Awal</h4>
+                                    <p class="text-gray-600 text-sm">Diskusi konsep dan kebutuhan</p>
+                                </div>
+                            </li>
+                            <li class="flex items-start">
+                                <div class="flex-shrink-0 w-8 h-8 bg-blue-700 text-white rounded-full flex items-center justify-center mr-3">2</div>
+                                <div>
+                                    <h4 class="font-semibold">Perencanaan Detil</h4>
+                                    <p class="text-gray-600 text-sm">Pembuatan timeline dan anggaran</p>
+                                </div>
+                            </li>
+                            <li class="flex items-start">
+                                <div class="flex-shrink-0 w-8 h-8 bg-blue-700 text-white rounded-full flex items-center justify-center mr-3">3</div>
+                                <div>
+                                    <h4 class="font-semibold">Eksekusi</h4>
+                                    <p class="text-gray-600 text-sm">Pelaksanaan acara H-0</p>
+                                </div>
+                            </li>
+                            <li class="flex items-start">
+                                <div class="flex-shrink-0 w-8 h-8 bg-blue-700 text-white rounded-full flex items-center justify-center mr-3">4</div>
+                                <div>
+                                    <h4 class="font-semibold">Evaluasi</h4>
+                                    <p class="text-gray-600 text-sm">Review dan penyerahan dokumentasi</p>
+                                </div>
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Paket Layanan -->
+    <section class="py-16 bg-gray-50">
+        <div class="max-w-screen-xl mx-auto px-4 md:px-8">
+            <h2 class="text-3xl font-bold text-blue-900 mb-8 text-center">Paket Wedding Organizer</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- [Copy paket pernikahan dari halaman utama] -->
+            </div>
+
+            <div class="mt-12 text-center">
+                <p class="text-gray-600 mb-4">*Harga dapat berubah sesuai dengan kebutuhan spesifik dan lokasi acara</p>
+                <a href="#kontak"
+                    class="inline-flex items-center py-3 px-6 text-center text-white bg-blue-700 hover:bg-blue-800 rounded-lg">
+                    Request Price List Lengkap
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="py-16 bg-white">
+        <div class="max-w-screen-xl mx-auto px-4 md:px-8">
+            <h2 class="text-3xl font-bold text-blue-900 mb-8 text-center">Pertanyaan Umum</h2>
+            
+            <div class="max-w-3xl mx-auto space-y-4">
+                <div class="border rounded-lg">
+                    <button class="flex justify-between items-center p-4 w-full">
+                        <span class="font-medium">Berapa lama waktu yang dibutuhkan untuk persiapan pernikahan?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="p-4 pt-0 hidden">
+                        <p class="text-gray-600">Idealnya 6-12 bulan sebelum hari-H. Namun kami bisa menangani pernikahan dalam waktu 3 bulan untuk paket tertentu.</p>
+                    </div>
+                </div>
+                
+                <!-- Tambahkan lebih banyak FAQ di sini -->
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-16 bg-blue-900 text-white">
+        <div class="max-w-screen-xl mx-auto px-4 md:px-8 text-center">
+            <h2 class="text-3xl font-bold mb-4">Siap Memulai Persiapan Pernikahan Anda?</h2>
+            <p class="text-lg mb-8">Konsultasikan ide dan konsep pernikahan Anda dengan tim profesional kami</p>
+            <a href="#kontak"
+                class="inline-flex items-center py-3 px-6 text-center text-blue-900 bg-white hover:bg-gray-100 rounded-lg">
+                Jadwalkan Konsultasi Gratis
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer (Sama dengan halaman utama) -->
+    <footer class="bg-blue-900 text-white py-12">
+        <!-- [Copy Footer dari index.html di sini] -->
+    </footer>
+
+    <!-- Back to Top Button -->
+    <button id="back-to-top"
+        class="fixed bottom-6 right-6 bg-blue-700 text-white w-12 h-12 rounded-full flex items-center justify-center shadow-lg opacity-0 transition-opacity duration-300 hover:bg-blue-800">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <script>
+        // Script untuk FAQ
+        document.querySelectorAll('.faq button').forEach(button => {
+            button.addEventListener('click', () => {
+                const content = button.nextElementSibling;
+                content.classList.toggle('hidden');
+                button.querySelector('i').classList.toggle('fa-chevron-up');
+                button.querySelector('i').classList.toggle('fa-chevron-down');
+            });
+        });
+
+        // [Copy script back-to-top dari index.html]
+    </script>
+</body>
+</html>
